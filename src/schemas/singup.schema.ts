@@ -9,8 +9,8 @@ export const singupSchema = object({
   email: string()
     .required('email is required')
     .email('Invalid email')
-    .min(10, 'username must be at least 10 characters long')
-    .max(30, 'username contains maximum 30 characters long'),
+    .min(10, 'email must be at least 10 characters long')
+    .max(50, 'email contains maximum 50 characters long'),
   firstName: string()
     .required('firstname required')
     .min(2, 'firstname must be at least 2 characters long')

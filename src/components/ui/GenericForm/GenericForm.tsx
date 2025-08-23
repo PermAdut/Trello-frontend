@@ -4,7 +4,7 @@ import FormInputField, { type FormInputFieldProps } from '../FormInputField/Form
 import * as styles from './GenericForm.css'
 import type { SingUpFormType } from '../../../schemas/singup.schema'
 import type { ObjectSchema } from 'yup'
-interface LoginFormProps<T extends LoginFormType | SingUpFormType> {
+interface GenericFormProps<T extends LoginFormType | SingUpFormType> {
   getInitialValues: () => T
   schema: ObjectSchema<T>
   submitForm: (values: T) => void
@@ -15,7 +15,7 @@ const GenericForm = <T extends LoginFormType | SingUpFormType>({
   schema,
   submitForm,
   fields,
-}: LoginFormProps<T>) => {
+}: GenericFormProps<T>) => {
   return (
     <>
       <Formik

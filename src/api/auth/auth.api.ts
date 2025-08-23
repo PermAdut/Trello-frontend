@@ -4,7 +4,10 @@ import type { AuthResponse, LoginCredentials, RegisterCredentials } from './type
 class AuthApi {
   private axiosInstance: AxiosInstance
   constructor() {
-    this.axiosInstance = axios.create({ baseURL: `${import.meta.env.VITE_SERVER_URL}`, withCredentials: true })
+    this.axiosInstance = axios.create({
+      baseURL: `${import.meta.env.VITE_SERVER_URL}/api/v1.0/auth`,
+      withCredentials: true,
+    })
     this.axiosInstance.interceptors.response.use(
       (res) => res,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
