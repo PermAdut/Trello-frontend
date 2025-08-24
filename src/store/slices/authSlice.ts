@@ -61,6 +61,15 @@ const authSlice = createSlice({
     сlearErrors: (state) => {
       state.error = null
     },
+    logoutUser: (state) => {
+      state.username = null
+      state.error = null
+      state.isLoading = false
+      localStorage.removeItem('accessToken')
+      document.cookie
+        .split(';')
+        .forEach((c) => (document.cookie = c.replace(/^ +/, '').split('=')[0] + '=;Max-Age=-99999999;'))
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -104,8 +113,7 @@ const authSlice = createSlice({
         state.isLoading = true
         state.username = null
       })
-      .addCase(getUsername.rejected, (state, action) => {
-        state.error = action.payload as string
+      .addCase(getUsername.rejected, (state) => {
         state.isLoading = false
         state.username = null
       })

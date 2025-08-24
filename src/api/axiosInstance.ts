@@ -22,8 +22,8 @@ axiosInstance.interceptors.response.use(
         config: any
       }
       const originalRequest = axiosErr.config
-
-      if (originalRequest && !originalRequest._retry) {
+      console.log(axiosErr)
+      if (originalRequest && originalRequest._retry) {
         originalRequest._retry = false
         try {
           const response = await authApiInstance.refresh()
