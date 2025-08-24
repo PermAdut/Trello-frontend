@@ -1,34 +1,21 @@
-import { Link, useNavigate } from 'react-router'
+import { Link } from 'react-router'
 import type { FormInputFieldProps } from '../../components/ui/FormInputField/FormInputField'
 import GenericForm from '../../components/ui/GenericForm/GenericForm'
-import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { defaultLoginFormValues, loginSchema, type LoginFormType } from '../../schemas/login.schema'
 import * as styles from './LoginPage.css'
-import { authActions, loginUser } from '../../store/slices/authSlice'
-import { useEffect } from 'react'
+import useGetAuth from '../../hooks/useGetAuth'
+import { useAppDispatch } from '../../hooks/redux'
+import { loginUser } from '../../store/slices/authSlice'
 const LoginPage = () => {
+  const error = useGetAuth()
   const fields: FormInputFieldProps<LoginFormType>[] = [
     { name: 'username' },
     { name: 'password', inputType: 'password' },
   ]
   const dispatch = useAppDispatch()
-  const navigate = useNavigate()
-  const { isAuthenticated, error } = useAppSelector((state) => state.auth)
-
   const handleLogin = (credentials: LoginFormType) => {
     dispatch(loginUser(credentials))
   }
-
-  useEffect(() => {
-    if (isAuthenticated) navigate('/')
-  }, [isAuthenticated, navigate])
-
-  useEffect(() => {
-    dispatch(authActions.сlearErrors())
-    return () => {
-      dispatch(authActions.сlearErrors())
-    }
-  }, [dispatch])
 
   return (
     <div className={styles.container}>

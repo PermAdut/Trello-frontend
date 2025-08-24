@@ -1,34 +1,30 @@
-import axios, { type AxiosInstance } from 'axios'
+import { type AxiosInstance } from 'axios'
 import type { AuthResponse, LoginCredentials, RegisterCredentials } from './types/auth.types'
+import axiosInstance from '../axiosInstance'
 
 class AuthApi {
   private axiosInstance: AxiosInstance
+  private url: string = '/auth'
   constructor() {
-    this.axiosInstance = axios.create({
-      baseURL: `${import.meta.env.VITE_SERVER_URL}/api/v1.0/auth`,
-      withCredentials: true,
-    })
-    this.axiosInstance.interceptors.response.use(
-      (res) => res,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (err: any) => {
-        throw Error(err.response.data.error || '')
-      },
-    )
+    this.axiosInstance = axiosInstance
   }
-
   async login(credentials: LoginCredentials): Promise<AuthResponse> {
-    const response = await this.axiosInstance.post('/login', credentials)
+    const response = await this.axiosInstance.post(`${this.url}/login`, credentials)
     return response.data
   }
 
   async register(credentials: RegisterCredentials): Promise<AuthResponse> {
-    const response = await this.axiosInstance.post('/register', credentials)
+    const response = await this.axiosInstance.post(`${this.url}/register`, credentials)
     return response.data
   }
 
   async refresh(): Promise<AuthResponse> {
-    const response = await this.axiosInstance.post('/refresh')
+    const response = await this.axiosInstance.post(`${this.url}/refresh`)
+    return response.data
+  }
+
+  async getUsername(): Promise<Pick<AuthResponse, 'username'>> {
+    const response = await this.axiosInstance.get(`${this.url}/username`)
     return response.data
   }
 }

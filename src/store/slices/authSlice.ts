@@ -4,13 +4,13 @@ import type { AuthResponse, LoginCredentials, RegisterCredentials } from '../../
 import authApiInstance from '../../api/auth/auth.api'
 
 export interface AuthState {
-  isAuthenticated: boolean
+  username: string | null
   isLoading: boolean
   error: string | null
 }
 
 const initialAuthState: AuthState = {
-  isAuthenticated: !!localStorage.getItem('accessToken'),
+  username: null,
   isLoading: false,
   error: null,
 }
@@ -42,12 +42,11 @@ export const loginUser = createAsyncThunk<AuthResponse, LoginCredentials, { reje
   },
 )
 
-export const refresh = createAsyncThunk<AuthResponse, null, { rejectValue: string }>(
-  'auth/refresh',
-  async (_, { rejectWithValue }) => {
+export const getUsername = createAsyncThunk<Pick<AuthResponse, 'username'>, void, { rejectValue: string }>(
+  'auth/username',
+  async (_: void, { rejectWithValue }) => {
     try {
-      const response = await authApiInstance.refresh()
-      localStorage.setItem('accessToken', response.accessToken)
+      const response = await authApiInstance.getUsername()
       return response
     } catch (err: any) {
       return rejectWithValue(err.message || 'Failed to login')
@@ -65,50 +64,50 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(loginUser.fulfilled, (state) => {
+      .addCase(loginUser.fulfilled, (state, action) => {
         state.error = null
         state.isLoading = false
-        state.isAuthenticated = true
+        state.username = action.payload.username
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.error = action.payload as string
         state.isLoading = false
-        state.isAuthenticated = false
+        state.username = null
       })
       .addCase(loginUser.pending, (state) => {
         state.error = null
         state.isLoading = true
-        state.isAuthenticated = false
+        state.username = null
       })
-      .addCase(registerUser.fulfilled, (state) => {
+      .addCase(registerUser.fulfilled, (state, action) => {
         state.error = null
         state.isLoading = false
-        state.isAuthenticated = true
+        state.username = action.payload.username
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.error = action.payload as string
         state.isLoading = false
-        state.isAuthenticated = false
+        state.username = null
       })
       .addCase(registerUser.pending, (state) => {
         state.error = null
         state.isLoading = true
-        state.isAuthenticated = false
+        state.username = null
       })
-      .addCase(refresh.fulfilled, (state) => {
+      .addCase(getUsername.fulfilled, (state, action) => {
         state.error = null
         state.isLoading = false
-        state.isAuthenticated = true
+        state.username = action.payload.username
       })
-      .addCase(refresh.rejected, (state, action) => {
-        state.error = action.payload as string
-        state.isLoading = false
-        state.isAuthenticated = false
-      })
-      .addCase(refresh.pending, (state) => {
+      .addCase(getUsername.pending, (state) => {
         state.error = null
         state.isLoading = true
-        state.isAuthenticated = false
+        state.username = null
+      })
+      .addCase(getUsername.rejected, (state, action) => {
+        state.error = action.payload as string
+        state.isLoading = false
+        state.username = null
       })
   },
 })

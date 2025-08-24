@@ -1,12 +1,13 @@
-import { useNavigate } from 'react-router'
 import type { FormInputFieldProps } from '../../components/ui/FormInputField/FormInputField'
 import GenericForm from '../../components/ui/GenericForm/GenericForm'
-import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+import { useAppDispatch } from '../../hooks/redux'
 import * as styles from './SignUpPage.css'
-import { registerUser, authActions } from '../../store/slices/authSlice'
-import { useEffect } from 'react'
+import { registerUser } from '../../store/slices/authSlice'
 import { defaultSingUpFormValues, singupSchema, type SingUpFormType } from '../../schemas/singup.schema'
+import useGetAuth from '../../hooks/useGetAuth'
 const SingUpPage = () => {
+  const error = useGetAuth()
+  const dispatch = useAppDispatch()
   const fields: FormInputFieldProps<SingUpFormType>[] = [
     { name: 'username' },
     { name: 'email' },
@@ -14,24 +15,9 @@ const SingUpPage = () => {
     { name: 'password', inputType: 'password' },
     { name: 'repeatedPassword', inputType: 'password' },
   ]
-  const dispatch = useAppDispatch()
-  const navigate = useNavigate()
-  const { isAuthenticated, error } = useAppSelector((state) => state.auth)
-
   const handleSingUp = (credentials: SingUpFormType) => {
     dispatch(registerUser(credentials))
   }
-
-  useEffect(() => {
-    if (isAuthenticated) navigate('/')
-  }, [isAuthenticated, navigate])
-
-  useEffect(() => {
-    dispatch(authActions.сlearErrors())
-    return () => {
-      dispatch(authActions.сlearErrors())
-    }
-  }, [dispatch])
 
   return (
     <div className={styles.container}>
