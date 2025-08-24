@@ -92,6 +92,9 @@ const tablesSlice = createSlice({
     clearError(state) {
       state.error = null
     },
+    setSelectedTable(state, action: { payload: number }) {
+      state.selectedTable = state.tables.find((table) => table.id === action.payload) || null
+    },
   },
   extraReducers: (builder) => {
     builder

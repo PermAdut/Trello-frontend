@@ -1,4 +1,5 @@
 import Header from '../../components/Header/Header'
+import TableMenu from '../../components/MainContent/Table/TableMenu/TableMenu'
 import useGetUserName from '../../hooks/useGetUserName'
 
 function MainPage() {
@@ -8,6 +9,7 @@ function MainPage() {
   return (
     <>
       <Header username={username} />
+      <TableMenu />
     </>
   )
 }

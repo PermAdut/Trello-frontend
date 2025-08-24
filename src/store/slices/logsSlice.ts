@@ -74,7 +74,9 @@ const logsSlice = createSlice({
       .addCase(addLog.fulfilled, (state, action) => {
         state.isLoading = false
         state.error = null
-        state.logs.shift()
+        if (state.logs.length == 20) {
+          state.logs.shift()
+        }
         state.logs.push(action.payload)
       })
   },

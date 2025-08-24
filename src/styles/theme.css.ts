@@ -5,6 +5,7 @@ export const [themeClass, vars] = createTheme({
     primary: 'black',
     secondary: 'blue',
     error: 'red',
+    green: '#22c55e',
   },
   fontSizes: {
     small: '0.7rem',
