@@ -92,9 +92,6 @@ const tablesSlice = createSlice({
     clearError(state) {
       state.error = null
     },
-    setSelectedTable(state, action: { payload: number }) {
-      state.selectedTable = state.tables.find((table) => table.id === action.payload) || null
-    },
   },
   extraReducers: (builder) => {
     builder
@@ -128,10 +125,6 @@ const tablesSlice = createSlice({
         state.error = action.payload as string
         state.selectedTable = null
       })
-      .addCase(addOneTable.pending, (state) => {
-        state.isLoading = true
-        state.error = null
-      })
       .addCase(addOneTable.fulfilled, (state, action) => {
         state.isLoading = false
         state.error = null
@@ -140,10 +133,6 @@ const tablesSlice = createSlice({
       .addCase(addOneTable.rejected, (state, action) => {
         state.isLoading = false
         state.error = action.payload as string
-      })
-      .addCase(updateTable.pending, (state) => {
-        state.isLoading = true
-        state.error = null
       })
       .addCase(updateTable.fulfilled, (state, action) => {
         state.isLoading = false

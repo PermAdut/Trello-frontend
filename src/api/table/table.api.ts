@@ -14,7 +14,7 @@ class TableApi {
   }
 
   async getOneTable(tableId: number): Promise<TableResponseDto> {
-    const response = await this.axiosInstance.get(`${this.url}${tableId}`)
+    const response = await this.axiosInstance.get(`${this.url}/${tableId}`)
     return response.data
   }
 
@@ -24,12 +24,12 @@ class TableApi {
   }
 
   async updateTable(tableId: number, body: UpdateTableRequestDto): Promise<TableResponseDto> {
-    const response = await this.axiosInstance.patch(`${this.url}${tableId}`, body)
+    const response = await this.axiosInstance.patch(`${this.url}/${tableId}`, body)
     return response.data
   }
 
   async deleteTable(tableId: number): Promise<void> {
-    const response = await this.axiosInstance.delete(`${this.url}${tableId}`)
+    const response = await this.axiosInstance.delete(`${this.url}/${tableId}`)
     return response.data
   }
 }

@@ -1,5 +1,6 @@
 import { useAppSelector, useAppDispatch } from '../../../../hooks/redux'
-import { addOneTable, tableActions } from '../../../../store/slices/tableSlice'
+import { getAllLists } from '../../../../store/slices/listSlice'
+import { addOneTable, getOneTable } from '../../../../store/slices/tableSlice'
 import * as styles from './TableMenu.css'
 
 function TableMenu() {
@@ -11,7 +12,8 @@ function TableMenu() {
   }
 
   const handleSelectTable = (tableId: number) => {
-    dispatch(tableActions.setSelectedTable(tableId))
+    dispatch(getOneTable(tableId))
+    dispatch(getAllLists(tableId))
   }
 
   return (
