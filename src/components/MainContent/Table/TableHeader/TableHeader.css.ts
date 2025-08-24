@@ -17,7 +17,7 @@ export const tableHeaderInput = style({
   borderRadius: '4px',
   padding: '8px',
   width: '100%',
-  maxWidth: '300px',
+  maxWidth: '700px',
   backgroundColor: 'transparent',
   ':focus': {
     outline: 'none',

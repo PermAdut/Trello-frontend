@@ -9,5 +9,5 @@ export const list = style({
   display: 'flex',
   flexDirection: 'column',
   gap: '10px',
-  maxHeight: 'calc(100vh - 150px)',
+  maxHeight: 'calc(100vh - 250px)',
 })

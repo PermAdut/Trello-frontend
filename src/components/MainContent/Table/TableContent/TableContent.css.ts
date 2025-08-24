@@ -12,6 +12,7 @@ export const listsContainer = style({
   gap: '15px',
   overflowX: 'auto',
   whiteSpace: 'nowrap',
+  minHeight: 'calc(100vh - 250px)',
 })
 
 export const addListButton = style({
@@ -29,4 +30,5 @@ export const addListButton = style({
       backgroundColor: '#2563eb',
     },
   },
+  maxHeight: '50px',
 })

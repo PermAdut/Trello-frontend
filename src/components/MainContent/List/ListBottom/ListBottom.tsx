@@ -16,7 +16,7 @@ export default function ListBottom({ listId }: ListBottomProps) {
 
   const handleAddTask = () => {
     if (selectedTable) {
-      const maxOrderIndex = tasks
+      const maxOrderIndex = tasks[listId]
         .filter((task) => task.listId === listId)
         .reduce((max, task) => Math.max(max, task.orderIndex), 0)
       dispatch(

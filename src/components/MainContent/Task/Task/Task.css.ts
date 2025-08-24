@@ -10,6 +10,12 @@ export const task = style({
   borderRadius: '4px',
   marginBottom: '5px',
   boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+  cursor: 'pointer',
+  selectors: {
+    '&:hover': {
+      backgroundColor: '#f1f5f9',
+    },
+  },
 })
 
 export const taskCheckbox = style({
@@ -17,16 +23,23 @@ export const taskCheckbox = style({
 })
 
 export const taskContent = style({
+  display: 'flex',
+  flexDirection: 'column',
   flex: 1,
+  wordBreak: 'break-word',
+  overflowWrap: 'break-word',
 })
 
 export const taskTitle = style({
   fontSize: vars.fontSizes.medium,
   color: vars.colors.primary,
   fontWeight: '500',
+  maxWidth: '250px',
+  whiteSpace: 'normal',
 })
 
 export const taskDescription = style({
   fontSize: vars.fontSizes.small,
   color: '#6b7280',
+  marginTop: '5px',
 })

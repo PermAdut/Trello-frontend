@@ -29,6 +29,8 @@ export const tableItem = style({
       backgroundColor: '#e5e7eb',
     },
   },
+  maxWidth: '100px',
+  overflow: 'hidden',
 })
 
 export const tableItemSelected = style({

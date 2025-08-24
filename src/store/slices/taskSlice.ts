@@ -4,14 +4,14 @@ import type { ITask, PostTaskRequestDto, TaskResponseDto, UpdateTaskRequestDto }
 import taskApiInstance from '../../api/task/task.api'
 
 export interface TasksState {
-  tasks: ITask[]
+  tasks: Record<number, ITask[]>
   selectedTask: ITask | null
   isLoading: boolean
   error: string | null
 }
 
 const initialTasksState: TasksState = {
-  tasks: [],
+  tasks: {},
   selectedTask: null,
   isLoading: false,
   error: null,
@@ -97,17 +97,17 @@ const tasksSlice = createSlice({
       .addCase(getAllTasks.pending, (state) => {
         state.isLoading = true
         state.error = null
-        state.tasks = []
       })
       .addCase(getAllTasks.fulfilled, (state, action) => {
         state.isLoading = false
         state.error = null
-        state.tasks = action.payload
+        const listId = action.meta.arg.listId
+        state.tasks[listId] = action.payload
       })
       .addCase(getAllTasks.rejected, (state, action) => {
         state.isLoading = false
         state.error = action.payload as string
-        state.tasks = []
+        state.tasks = {}
       })
       .addCase(getOneTask.pending, (state) => {
         state.isLoading = true
@@ -118,6 +118,10 @@ const tasksSlice = createSlice({
         state.isLoading = false
         state.error = null
         state.selectedTask = action.payload
+        const listId = action.payload.listId
+        state.tasks[listId] = state.tasks[listId]
+          ? state.tasks[listId].map((task) => (task.id === action.payload.id ? action.payload : task))
+          : [action.payload]
       })
       .addCase(getOneTask.rejected, (state, action) => {
         state.isLoading = false
@@ -131,7 +135,8 @@ const tasksSlice = createSlice({
       .addCase(addOneTask.fulfilled, (state, action) => {
         state.isLoading = false
         state.error = null
-        state.tasks.push(action.payload)
+        const listId = action.payload.listId
+        state.tasks[listId] = state.tasks[listId] ? [...state.tasks[listId], action.payload] : [action.payload]
       })
       .addCase(addOneTask.rejected, (state, action) => {
         state.isLoading = false
@@ -144,7 +149,10 @@ const tasksSlice = createSlice({
       .addCase(updateTask.fulfilled, (state, action) => {
         state.isLoading = false
         state.error = null
-        state.tasks = state.tasks.map((task) => (task.id === action.payload.id ? action.payload : task))
+        const listId = action.payload.listId
+        state.tasks[listId] = state.tasks[listId]
+          ? state.tasks[listId].map((task) => (task.id === action.payload.id ? action.payload : task))
+          : [action.payload]
         if (state.selectedTask?.id === action.payload.id) {
           state.selectedTask = action.payload
         }
@@ -160,7 +168,8 @@ const tasksSlice = createSlice({
       .addCase(deleteTask.fulfilled, (state, action) => {
         state.isLoading = false
         state.error = null
-        state.tasks = state.tasks.filter((task) => task.id !== action.meta.arg.taskId)
+        const listId = action.meta.arg.listId
+        state.tasks[listId] = state.tasks[listId]?.filter((task) => task.id !== action.meta.arg.taskId) || []
         if (state.selectedTask?.id === action.meta.arg.taskId) {
           state.selectedTask = null
         }
