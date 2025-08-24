@@ -71,9 +71,11 @@ const logsSlice = createSlice({
         state.error = action.payload as string
         state.logs = []
       })
-      .addCase(addLog.fulfilled, (state) => {
+      .addCase(addLog.fulfilled, (state, action) => {
         state.isLoading = false
         state.error = null
+        state.logs.shift()
+        state.logs.push(action.payload)
       })
   },
 })
