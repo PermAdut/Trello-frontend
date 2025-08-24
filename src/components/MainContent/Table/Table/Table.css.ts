@@ -1,0 +1,8 @@
+import { style } from '@vanilla-extract/css'
+
+export const table = style({
+  flex: 1,
+  display: 'flex',
+  flexDirection: 'column',
+  width: '70vh',
+})

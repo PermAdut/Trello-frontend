@@ -16,7 +16,7 @@ export default function ListHeader({ listId, name }: ListHeaderProps) {
 
   const handleBlur = () => {
     if (selectedTable && listName !== name) {
-      dispatch(updateList({ tableId: selectedTable.id, listId, body: { name: listName } })).unwrap()
+      dispatch(updateList({ tableId: selectedTable.id, listId, body: { name: listName } }))
     }
   }
 

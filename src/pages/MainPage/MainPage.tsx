@@ -1,9 +1,7 @@
 import Header from '../../components/Header/Header'
-import TableContent from '../../components/MainContent/Table/TableContent/TableContent'
-import TableHeader from '../../components/MainContent/Table/TableHeader/TableHeader'
-import TableMenu from '../../components/MainContent/Table/TableMenu/TableMenu'
 import useInitialData from '../../hooks/useInitialData'
 import { useAppSelector } from '../../hooks/redux'
+import MainContent from '../../components/MainContent/MainContent/MainContent'
 
 function MainPage() {
   const { username } = useAppSelector((state) => state.auth)
@@ -15,9 +13,7 @@ function MainPage() {
   return (
     <>
       <Header username={username} />
-      <TableHeader />
-      <TableContent />
-      <TableMenu />
+      <MainContent />
     </>
   )
 }
