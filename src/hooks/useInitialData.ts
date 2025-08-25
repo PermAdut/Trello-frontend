@@ -12,7 +12,7 @@ interface InitialDataState {
 export default function useInitialData(): InitialDataState {
   const dispatch = useAppDispatch()
   const { isLoading: tablesLoading, error: tablesError } = useAppSelector((state) => state.table)
-  const { isLoading: logsLoading, error: logsError } = useAppSelector((state) => state.logs)
+  const { error: logsError } = useAppSelector((state) => state.logs)
   const { isLoading: authLoading, error: authError } = useAppSelector((state) => state.auth)
   const [isInitialLoading, setIsInitialLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -24,9 +24,9 @@ export default function useInitialData(): InitialDataState {
 
       try {
         await Promise.all([
-          dispatch(getAllTables()).unwrap(),
-          dispatch(getLogs()).unwrap(),
-          dispatch(getUsername()).unwrap(),
+          await dispatch(getAllTables()).unwrap(),
+          await dispatch(getLogs()).unwrap(),
+          await dispatch(getUsername()).unwrap(),
         ])
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
@@ -39,7 +39,7 @@ export default function useInitialData(): InitialDataState {
     fetchInitialData()
   }, [dispatch])
 
-  const isLoading = isInitialLoading || tablesLoading || logsLoading || authLoading
+  const isLoading = isInitialLoading || authLoading || tablesLoading
   const combinedError = error || tablesError || logsError || authError
 
   return { isLoading, error: combinedError }

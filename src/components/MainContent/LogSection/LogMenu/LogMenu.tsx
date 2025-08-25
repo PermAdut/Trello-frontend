@@ -9,6 +9,7 @@ export default function LogMenu() {
       {logs.length > 0 ? (
         logs.map((log) => (
           <div key={log.id} className={styles.logItem}>
+            <h2 className={styles.logAction}>{log.log}</h2>
             <span className={styles.logTimestamp}>{new Date(log.timestamp).toLocaleString()}</span>
           </div>
         ))

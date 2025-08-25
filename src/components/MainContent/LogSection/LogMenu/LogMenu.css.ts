@@ -4,7 +4,7 @@ import { vars } from '../../../../styles/theme.css'
 export const logMenu = style({
   padding: '10px',
   overflowY: 'auto',
-  height: 'calc(100vh - 150px)',
+  height: 'calc(100vh - 200px)',
   backgroundColor: '#f4f5f7',
 })
 

@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux'
 import * as styles from './ListBottom.css'
 import { addOneTask } from '../../../../store/slices/taskSlice'
+import { addLog } from '../../../../store/slices/logsSlice'
+import { getOneList } from '../../../../store/slices/listSlice'
 
 interface ListBottomProps {
   listId: number
@@ -9,21 +11,28 @@ interface ListBottomProps {
 
 export default function ListBottom({ listId }: ListBottomProps) {
   const dispatch = useAppDispatch()
+  const { username } = useAppSelector((state) => state.auth)
   const { selectedTable } = useAppSelector((state) => state.table)
   const { tasks } = useAppSelector((state) => state.task)
   const [isAdding, setIsAdding] = useState(false)
   const [taskTitle, setTaskTitle] = useState('New Task')
-
-  const handleAddTask = () => {
+  const { selectedList } = useAppSelector((state) => state.list)
+  const handleAddTask = async () => {
     if (selectedTable) {
       const maxOrderIndex = tasks[listId]
         .filter((task) => task.listId === listId)
         .reduce((max, task) => Math.max(max, task.orderIndex), 0)
-      dispatch(
+      await dispatch(
         addOneTask({
           tableId: selectedTable.id,
           listId,
           body: { title: taskTitle, orderIndex: maxOrderIndex + 1 },
+        }),
+      )
+      await dispatch(getOneList({ tableId: selectedTable.id, listId }))
+      await dispatch(
+        addLog({
+          log: `${username} added task with title ${taskTitle} to list ${selectedList?.name} in board ${selectedTable.name}`,
         }),
       )
       setTaskTitle('New Task')

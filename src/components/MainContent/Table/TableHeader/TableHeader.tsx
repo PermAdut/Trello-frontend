@@ -1,23 +1,29 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux'
 import { updateTable, deleteTable, tableActions } from '../../../../store/slices/tableSlice'
 import * as styles from './TableHeader.css'
+import { addLog } from '../../../../store/slices/logsSlice'
 
 export default function TableHeader() {
   const dispatch = useAppDispatch()
   const { selectedTable } = useAppSelector((state) => state.table)
-  const [name, setName] = useState(selectedTable?.name || '')
-
-  const handleBlur = () => {
+  const { username } = useAppSelector((state) => state.auth)
+  const [name, setName] = useState<string>('')
+  useEffect(() => {
+    if (selectedTable) setName(selectedTable?.name)
+  }, [selectedTable])
+  const handleBlur = async () => {
     if (selectedTable && name !== selectedTable.name) {
-      dispatch(updateTable({ tableId: selectedTable.id, body: { name } }))
+      await dispatch(updateTable({ tableId: selectedTable.id, body: { name } }))
+      await dispatch(addLog({ log: `${username} updated table name to ${name}` }))
     }
   }
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (selectedTable) {
-      dispatch(deleteTable(selectedTable.id))
-      dispatch(tableActions.clearSelectedTable())
+      await dispatch(deleteTable(selectedTable.id))
+      await dispatch(addLog({ log: `${username} deleted table ${selectedTable.name}` }))
+      await dispatch(tableActions.clearSelectedTable())
     }
   }
 

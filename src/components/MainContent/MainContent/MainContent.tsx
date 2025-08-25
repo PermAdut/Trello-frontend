@@ -5,8 +5,8 @@ import * as styles from './MainContent.css'
 function MainContent() {
   return (
     <div className={styles.mainContent}>
-      <LogSection />
       <Table />
+      <LogSection />
     </div>
   )
 }

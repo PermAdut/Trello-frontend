@@ -29,6 +29,7 @@ export const tableItem = style({
       backgroundColor: '#e5e7eb',
     },
   },
+  minWidth: '100px',
   maxWidth: '100px',
   overflow: 'hidden',
 })

@@ -28,7 +28,7 @@ export const getLogs = createAsyncThunk<LogsResponseDto[], void, { rejectValue: 
 )
 
 export const addLog = createAsyncThunk<LogsResponseDto, PostLogsRequestDto, { rejectValue: string }>(
-  'auth/login',
+  'logs/post',
   async (log: PostLogsRequestDto, { rejectWithValue }) => {
     try {
       const response = await logsApiInstance.addLog(log)
@@ -64,20 +64,19 @@ const logsSlice = createSlice({
       .addCase(addLog.pending, (state) => {
         state.isLoading = true
         state.error = null
-        state.logs = []
       })
       .addCase(addLog.rejected, (state, action) => {
         state.isLoading = false
         state.error = action.payload as string
-        state.logs = []
       })
       .addCase(addLog.fulfilled, (state, action) => {
         state.isLoading = false
         state.error = null
         if (state.logs.length == 20) {
-          state.logs.shift()
+          state.logs.unshift()
         }
         state.logs.push(action.payload)
+        state.logs.sort((a, b) => b.id - a.id)
       })
   },
 })

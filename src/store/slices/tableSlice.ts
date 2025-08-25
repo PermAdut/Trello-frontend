@@ -103,7 +103,7 @@ const tablesSlice = createSlice({
       .addCase(getAllTables.fulfilled, (state, action) => {
         state.isLoading = false
         state.error = null
-        state.tables = action.payload
+        state.tables = action.payload.sort((a, b) => a.id - b.id)
       })
       .addCase(getAllTables.rejected, (state, action) => {
         state.isLoading = false
@@ -113,7 +113,6 @@ const tablesSlice = createSlice({
       .addCase(getOneTable.pending, (state) => {
         state.isLoading = true
         state.error = null
-        state.selectedTable = null
       })
       .addCase(getOneTable.fulfilled, (state, action) => {
         state.isLoading = false
@@ -129,6 +128,9 @@ const tablesSlice = createSlice({
         state.isLoading = false
         state.error = null
         state.tables.push(action.payload)
+        if (state.selectedTable === null) {
+          state.selectedTable = action.payload
+        }
       })
       .addCase(addOneTable.rejected, (state, action) => {
         state.isLoading = false

@@ -5,4 +5,5 @@ export const table = style({
   display: 'flex',
   flexDirection: 'column',
   width: '70vh',
+  borderRight: '5px solid black',
 })
