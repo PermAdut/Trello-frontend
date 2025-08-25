@@ -110,6 +110,12 @@ const tasksSlice = createSlice({
     clearError(state) {
       state.error = null
     },
+    clearState(state) {
+      state.selectedTask = null
+      state.error = null
+      state.tasks = {}
+      state.isLoading = false
+    },
   },
   extraReducers: (builder) => {
     builder

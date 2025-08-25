@@ -92,6 +92,12 @@ const tablesSlice = createSlice({
     clearError(state) {
       state.error = null
     },
+    clearTableData(state) {
+      state.error = null
+      state.isLoading = false
+      state.selectedTable = null
+      state.tables = []
+    },
   },
   extraReducers: (builder) => {
     builder

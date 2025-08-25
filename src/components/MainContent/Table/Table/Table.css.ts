@@ -6,4 +6,5 @@ export const table = style({
   flexDirection: 'column',
   width: '70vh',
   borderRight: '5px solid black',
+  overflow: 'hidden',
 })

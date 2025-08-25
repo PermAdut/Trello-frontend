@@ -89,6 +89,12 @@ const listsSlice = createSlice({
     clearError(state) {
       state.error = null
     },
+    clearListData(state) {
+      state.error = null
+      state.isLoading = false
+      state.selectedList = null
+      state.lists = []
+    },
   },
   extraReducers: (builder) => {
     builder
