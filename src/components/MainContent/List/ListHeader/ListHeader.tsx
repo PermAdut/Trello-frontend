@@ -17,6 +17,10 @@ export default function ListHeader({ listId, name }: ListHeaderProps) {
   const [listName, setListName] = useState(name)
 
   const handleBlur = async () => {
+    if (!listName) {
+      setListName(name)
+      return
+    }
     if (selectedTable && listName !== name) {
       await dispatch(updateList({ tableId: selectedTable.id, listId, body: { name: listName } }))
       await dispatch(addLog({ log: `${username} updated list name to ${listName} in table ${selectedTable.name}` }))

@@ -9,6 +9,7 @@ import { getAllTasks, moveTask } from '../../../../store/slices/taskSlice'
 import type { ITask } from '../../../../api/task/types/task.types'
 import DropZone from '../../../ui/DropZone/DropZone'
 import EmptyLayout from '../../../ui/EmptyLayout/EmptyLayout'
+import { addLog } from '../../../../store/slices/logsSlice'
 
 interface ListProps {
   list: IList
@@ -18,7 +19,7 @@ export default function List({ list }: ListProps) {
   const dispatch = useAppDispatch()
   const { selectedTable } = useAppSelector((state) => state.table)
   const { tasks } = useAppSelector((state) => state.task)
-
+  const { username } = useAppSelector((state) => state.auth)
   const handleDrop = async (movedTask: ITask, taskOrderIndex: number) => {
     const sourceListId = movedTask.listId
     const targetListId = list.id
@@ -57,7 +58,7 @@ export default function List({ list }: ListProps) {
         },
       }),
     )
-
+    await dispatch(addLog({ log: `${username} dragged task ${movedTask.title} to list ${list.name}` }))
     await dispatch(getAllTasks({ tableId: list.tableId, listId: targetListId }))
     if (sourceListId !== targetListId) await dispatch(getAllTasks({ tableId: list.tableId, listId: sourceListId }))
   }

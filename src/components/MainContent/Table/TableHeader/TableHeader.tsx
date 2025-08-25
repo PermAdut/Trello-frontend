@@ -13,6 +13,10 @@ export default function TableHeader() {
     if (selectedTable) setName(selectedTable?.name)
   }, [selectedTable])
   const handleBlur = async () => {
+    if (!name && selectedTable) {
+      setName(selectedTable?.name)
+      return
+    }
     if (selectedTable && name !== selectedTable.name) {
       await dispatch(updateTable({ tableId: selectedTable.id, body: { name } }))
       await dispatch(addLog({ log: `${username} updated table name to ${name}` }))
