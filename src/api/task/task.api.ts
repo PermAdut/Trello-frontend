@@ -1,6 +1,6 @@
 import { type AxiosInstance } from 'axios'
 import axiosInstance from '../axiosInstance'
-import type { PostTaskRequestDto, TaskResponseDto, UpdateTaskRequestDto } from './types/task.types'
+import type { MoveTaskRequestDto, PostTaskRequestDto, TaskResponseDto, UpdateTaskRequestDto } from './types/task.types'
 
 class TaskApi {
   private axiosInstance: AxiosInstance
@@ -37,6 +37,11 @@ class TaskApi {
 
   async deleteTask(tableId: number, listId: number, taskId: number): Promise<void> {
     await this.axiosInstance.delete(`/${this.url}/${tableId}/${listId}/${taskId}`)
+  }
+
+  async moveTask(tableId: number, body: MoveTaskRequestDto): Promise<TaskResponseDto[]> {
+    const response = await this.axiosInstance.post(`${this.url}/${tableId}`, body)
+    return response.data
   }
 }
 

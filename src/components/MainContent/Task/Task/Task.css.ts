@@ -8,8 +8,8 @@ export const task = style({
   padding: '10px',
   backgroundColor: 'white',
   borderRadius: '4px',
-  marginBottom: '5px',
-  boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+  marginBottom: '10px',
+  boxShadow: '0 1px 3px black',
   cursor: 'pointer',
   selectors: {
     '&:hover': {

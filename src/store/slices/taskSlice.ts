@@ -1,6 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import type { ITask, PostTaskRequestDto, TaskResponseDto, UpdateTaskRequestDto } from '../../api/task/types/task.types'
+import type {
+  ITask,
+  MoveTaskRequestDto,
+  PostTaskRequestDto,
+  TaskResponseDto,
+  UpdateTaskRequestDto,
+} from '../../api/task/types/task.types'
 import taskApiInstance from '../../api/task/task.api'
 
 export interface TasksState {
@@ -76,6 +82,19 @@ export const deleteTask = createAsyncThunk<
 >('tasks/delete', async ({ tableId, listId, taskId }, { rejectWithValue }) => {
   try {
     await taskApiInstance.deleteTask(tableId, listId, taskId)
+  } catch (err: any) {
+    return rejectWithValue(err.message || 'Failed to delete task')
+  }
+})
+
+export const moveTask = createAsyncThunk<
+  TaskResponseDto[],
+  { tableId: number; body: MoveTaskRequestDto },
+  { rejectValue: string }
+>('tasks/move', async ({ tableId, body }, { rejectWithValue }) => {
+  try {
+    const response = await taskApiInstance.moveTask(tableId, body)
+    return response
   } catch (err: any) {
     return rejectWithValue(err.message || 'Failed to delete task')
   }
@@ -176,6 +195,12 @@ const tasksSlice = createSlice({
       })
       .addCase(deleteTask.rejected, (state, action) => {
         state.isLoading = false
+        state.error = action.payload as string
+      })
+      .addCase(moveTask.fulfilled, (state) => {
+        state.error = null
+      })
+      .addCase(moveTask.rejected, (state, action) => {
         state.error = action.payload as string
       })
   },

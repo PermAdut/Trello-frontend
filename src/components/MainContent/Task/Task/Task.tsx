@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../../../hooks/redux'
 import { updateTask } from '../../../../store/slices/taskSlice'
 import ModalTask from '../ModalTask/ModalTask'
 import * as styles from './Task.css'
-
+import { useImprovedDrag } from '../../../../hooks/react-dnd-improved'
 interface TaskProps {
   task: ITask
 }
@@ -13,6 +13,14 @@ export default function Task({ task }: TaskProps) {
   const dispatch = useAppDispatch()
   const { selectedTable } = useAppSelector((state) => state.table)
   const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const [{ isDragging }, drag] = useImprovedDrag<ITask, void, { isDragging: boolean }>({
+    type: 'TASK',
+    item: task,
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  })
 
   const handleCheckboxChange = () => {
     if (selectedTable) {
@@ -33,7 +41,7 @@ export default function Task({ task }: TaskProps) {
 
   return (
     <>
-      <div className={styles.task} onClick={handleTaskClick}>
+      <div ref={drag} className={styles.task} onClick={handleTaskClick} style={{ opacity: isDragging ? 0.5 : 1 }}>
         <input
           type="checkbox"
           checked={task.isCompleted}

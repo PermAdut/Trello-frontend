@@ -19,3 +19,9 @@ export interface UpdateTaskRequestDto extends Partial<Omit<ITask, 'id'>> {}
 export interface DeleteTaskRequestDto {}
 
 export interface TaskResponseDto extends ITask {}
+
+export interface MoveTaskRequestDto {
+  tasks: ITask[]
+  movedTask: ITask
+  sourceListId: number
+}

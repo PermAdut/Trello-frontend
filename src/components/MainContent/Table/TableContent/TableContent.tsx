@@ -9,6 +9,7 @@ export default function TableContent() {
   const { lists } = useAppSelector((state) => state.list)
   const { selectedTable } = useAppSelector((state) => state.table)
   const { username } = useAppSelector((state) => state.auth)
+
   const handleAddList = async () => {
     if (selectedTable) {
       await dispatch(addOneList({ tableId: selectedTable.id, body: { name: 'New List' } }))
