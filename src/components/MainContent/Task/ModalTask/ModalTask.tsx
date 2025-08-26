@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux'
 import { updateTask, deleteTask } from '../../../../store/slices/taskSlice'
 import type { ITask } from '../../../../api/task/types/task.types'
@@ -16,13 +16,6 @@ export default function ModalTask({ task, onClose }: ModalTaskProps) {
   const { username } = useAppSelector((state) => state.auth)
   const [title, setTitle] = useState(task.title)
   const [description, setDescription] = useState(task.description || '')
-  const modalRef = useRef<HTMLDivElement>(null)
-
-  const handleClickOutside = (e: React.MouseEvent) => {
-    if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
-      onClose()
-    }
-  }
 
   const handleSave = async () => {
     if (selectedTable && (title !== task.title || description !== (task.description || ''))) {
@@ -54,8 +47,8 @@ export default function ModalTask({ task, onClose }: ModalTaskProps) {
   }
 
   return (
-    <div className={styles.modalOverlay} onClick={handleClickOutside}>
-      <div className={styles.modal} ref={modalRef}>
+    <div className={styles.modalOverlay}>
+      <div className={styles.modal}>
         <div className={styles.modalHeader}>
           <input
             type="text"

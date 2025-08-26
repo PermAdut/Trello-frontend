@@ -9,9 +9,11 @@ export default function TableHeader() {
   const { selectedTable } = useAppSelector((state) => state.table)
   const { username } = useAppSelector((state) => state.auth)
   const [name, setName] = useState<string>('')
+
   useEffect(() => {
     if (selectedTable) setName(selectedTable?.name)
   }, [selectedTable])
+
   const handleBlur = async () => {
     if (!name && selectedTable) {
       setName(selectedTable?.name)

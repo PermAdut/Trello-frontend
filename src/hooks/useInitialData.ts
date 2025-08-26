@@ -11,7 +11,7 @@ interface InitialDataState {
 
 export default function useInitialData(): InitialDataState {
   const dispatch = useAppDispatch()
-  const { isLoading: tablesLoading, error: tablesError } = useAppSelector((state) => state.table)
+  const { error: tablesError } = useAppSelector((state) => state.table)
   const { error: logsError } = useAppSelector((state) => state.logs)
   const { isLoading: authLoading, error: authError } = useAppSelector((state) => state.auth)
   const [isInitialLoading, setIsInitialLoading] = useState(true)
@@ -39,7 +39,7 @@ export default function useInitialData(): InitialDataState {
     fetchInitialData()
   }, [dispatch])
 
-  const isLoading = isInitialLoading || authLoading || tablesLoading
+  const isLoading = isInitialLoading || authLoading
   const combinedError = error || tablesError || logsError || authError
 
   return { isLoading, error: combinedError }

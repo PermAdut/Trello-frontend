@@ -16,6 +16,21 @@ export const tableMenu = style({
   whiteSpace: 'nowrap',
 })
 
+export const addTableButton = style({
+  padding: '8px 16px',
+  fontSize: vars.fontSizes.medium,
+  color: vars.colors.primary,
+  backgroundColor: vars.colors.secondary,
+  border: 'none',
+  borderRadius: '4px',
+  cursor: 'pointer',
+  selectors: {
+    '&:hover': {
+      backgroundColor: '#2563eb',
+    },
+  },
+})
+
 export const tableItem = style({
   padding: '8px 16px',
   fontSize: vars.fontSizes.medium,
@@ -36,19 +51,4 @@ export const tableItem = style({
 
 export const tableItemSelected = style({
   borderColor: vars.colors.green,
-})
-
-export const addTableButton = style({
-  padding: '8px 16px',
-  fontSize: vars.fontSizes.medium,
-  color: vars.colors.primary,
-  backgroundColor: vars.colors.secondary,
-  border: 'none',
-  borderRadius: '4px',
-  cursor: 'pointer',
-  selectors: {
-    '&:hover': {
-      backgroundColor: '#2563eb',
-    },
-  },
 })

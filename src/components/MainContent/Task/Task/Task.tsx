@@ -35,13 +35,14 @@ export default function Task({ task }: TaskProps) {
     }
   }
 
-  const handleTaskClick = () => {
-    setIsModalOpen(true)
-  }
-
   return (
     <>
-      <div ref={drag} className={styles.task} onClick={handleTaskClick} style={{ opacity: isDragging ? 0.5 : 1 }}>
+      <div
+        ref={drag}
+        className={styles.task}
+        onClick={() => setIsModalOpen(true)}
+        style={{ opacity: isDragging ? 0.5 : 1 }}
+      >
         <input
           type="checkbox"
           checked={task.isCompleted}
@@ -51,7 +52,7 @@ export default function Task({ task }: TaskProps) {
         />
         <div className={styles.taskContent}>
           <span className={styles.taskTitle}>{task.title}</span>
-          {task.description && <span className={styles.taskDescription}>D</span>}
+          {task.description && <span className={styles.taskDescription}>click to see description</span>}
         </div>
       </div>
       {isModalOpen && <ModalTask task={task} onClose={() => setIsModalOpen(false)} />}
