@@ -11,12 +11,3 @@ export const list = style({
   gap: '10px',
   maxHeight: 'calc(100vh - 250px)',
 })
-
-export const noContent = style({
-  fontSize: vars.fontSizes.medium,
-  color: vars.colors.primary,
-  fontWeight: '500',
-  maxWidth: '250px',
-  whiteSpace: 'normal',
-  marginLeft: '10px',
-})

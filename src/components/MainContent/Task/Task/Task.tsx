@@ -5,6 +5,7 @@ import { updateTask } from '../../../../store/slices/taskSlice'
 import ModalTask from '../ModalTask/ModalTask'
 import * as styles from './Task.css'
 import { useImprovedDrag } from '../../../../hooks/react-dnd-improved'
+import { TASK_DND_TYPE } from '../../../../constants/dnd.item.type'
 interface TaskProps {
   task: ITask
 }
@@ -15,7 +16,7 @@ export default function Task({ task }: TaskProps) {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const [{ isDragging }, drag] = useImprovedDrag<ITask, void, { isDragging: boolean }>({
-    type: 'TASK',
+    type: TASK_DND_TYPE,
     item: task,
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
