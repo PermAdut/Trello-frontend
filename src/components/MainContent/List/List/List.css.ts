@@ -10,4 +10,5 @@ export const list = style({
   flexDirection: 'column',
   gap: '10px',
   maxHeight: 'calc(100vh - 250px)',
+  height: 'fit-content',
 })

@@ -16,7 +16,7 @@ export default function ListBottom({ listId }: ListBottomProps) {
   const { tasks } = useAppSelector((state) => state.task)
   const [isAdding, setIsAdding] = useState(false)
   const [taskTitle, setTaskTitle] = useState('New Task')
-  const { selectedList } = useAppSelector((state) => state.list)
+
   const handleAddTask = async () => {
     if (selectedTable) {
       const maxOrderIndex = tasks[listId]
@@ -29,12 +29,14 @@ export default function ListBottom({ listId }: ListBottomProps) {
           body: { title: taskTitle, orderIndex: maxOrderIndex + 1 },
         }),
       )
-      await dispatch(getOneList({ tableId: selectedTable.id, listId }))
-      await dispatch(
-        addLog({
-          log: `${username} added task with title ${taskTitle} to list ${selectedList?.name} in board ${selectedTable.name}`,
-        }),
-      )
+      const result = await dispatch(getOneList({ tableId: selectedTable.id, listId }))
+      if (getOneList.fulfilled.match(result)) {
+        await dispatch(
+          addLog({
+            log: `${username} added task with title ${taskTitle} to list ${result.payload.name} in board ${selectedTable.name}`,
+          }),
+        )
+      }
       setTaskTitle('New Task')
       setIsAdding(false)
     }

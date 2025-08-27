@@ -11,7 +11,6 @@ export const noContent = style({
 })
 
 export const listContent = style({
-  flex: 1,
   overflowY: 'auto',
   padding: '5px',
 })
